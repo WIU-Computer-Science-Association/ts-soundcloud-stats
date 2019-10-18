@@ -1,7 +1,7 @@
 <template>
     <div id="UserStats">
         <h1>{{ username }}</h1>
-        </h2>{{ userDescription }}</h2>
+        <h2>{{ userDescription }}</h2>
     </div>
 </template>
 
