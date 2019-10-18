@@ -47,9 +47,4 @@ export default class Home extends Vue {
     this.resolvedDescription = result.description;
   }
 }
-
-interface UserInfo {
-    userName: string;
-    userDescription: string;
-}
 </script>
