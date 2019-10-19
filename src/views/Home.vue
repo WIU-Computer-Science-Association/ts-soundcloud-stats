@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { Component, Prop, PropSync, Vue } from 'vue-property-decorator';
-import UserStats from "@/components/UserStats.vue";
+import UserStats from '@/components/UserStats.vue';
 import UserSearch from '@/components/UserSearch.vue';
 import SC from 'soundcloud';
 
@@ -28,10 +28,10 @@ import SC from 'soundcloud';
 })
 export default class Home extends Vue {
 
-  public resolvedUsername:string = "";
-  public resolvedDescription:string = "";
-  public userSearchError:object = {};
-  public errorInitializingSoundCloud:object = {};
+  public resolvedUsername: string = '';
+  public resolvedDescription: string = '';
+  public userSearchError: object = {};
+  public errorInitializingSoundCloud: object = {};
 
   constructor() {
     super();
@@ -46,7 +46,7 @@ export default class Home extends Vue {
       console.log(result);
       this.resolvedDescription = result.description;
       this.resolvedUsername = result.username;
-      this.userSearchError = "";
+      this.userSearchError = {};
     } catch (err) {
       console.log('error with getting user');
       console.log(err);
