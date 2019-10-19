@@ -4,9 +4,6 @@
           <h1>{{ username }}</h1>
           <h2>{{ userDescription }}</h2>
       </template>
-      <template v-if="!username">
-          <h1>Please enter a username above</h1>
-      </template>
     </div>
 </template>
 
