@@ -8,13 +8,13 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue, Provide } from 'vue-property-decorator'
-  @Component
-  export default class VsInput extends Vue {
-    @Provide()
-    username = '';
-    search() {
-      this.$emit('search', this.username);
-    }
+import { Component, Vue, Provide } from 'vue-property-decorator';
+@Component
+export default class VsInput extends Vue {
+  @Provide()
+  public username = '';
+  public search() {
+    this.$emit('search', this.username);
   }
+}
 </script>
