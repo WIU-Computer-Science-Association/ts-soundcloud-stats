@@ -1,43 +1,40 @@
 <template>
   <div class="home">
-    <!-- <img alt="Vue logo" src="../assets/logo.png" style="float:left; height:5em;"> -->
-    <UserStats :username="resolvedUsername" :userDescription="resolvedDescription"/>
+    <UserSearch/>
+    <!-- <UserStats :username="resolvedUsername" :userDescription="resolvedDescription" /> -->
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, PropSync, Vue } from 'vue-property-decorator';
-import UserStats from '@/components/UserStats.vue';
-import SC from 'soundcloud';
+import { Component, Prop, PropSync, Vue } from "vue-property-decorator";
+// import UserStats from "@/components/UserStats.vue";
+import UserSearch from "@/components/UserSearch.vue";
+import SC from "soundcloud";
 
 @Component({
   components: {
-    UserStats,
-  },
+    // UserStats
+    UserSearch
+  }
 })
 export default class Home extends Vue {
-  private username: string = 'Look up a User!';
-  private description: string = 'Their information will show up here.';
 
-  get resolvedUsername() {
-    return this.username;
-  }
-  set resolvedUsername(value: string) {
-    this.username = value;
-  }
 
-  get resolvedDescription() {
-    return this.description;
-  }
-  set resolvedDescription(value: string) {
-    this.description = value;
-  }
 
   constructor() {
     super();
-    SC.initialize({ client_id: process.env.VUE_APP_SC_CLIENT_ID});
+    try {
+      SC.initialize({ client_id: process.env.VUE_APP_SC_CLIENT_ID });
+    } catch (err) {
+      console.log(
+        "An error occurred while trying to initialize the SoundCloud API."
+      );
+      console.log("Please check that your soundcloud client ID is valid.");
+      console.log("error response:");
+      console.log(err);
+    }
 
-    this.setUserData(process.env.VUE_APP_SC_TEST_USERNAME);
+    // this.setUserData(process.env.VUE_APP_SC_TEST_USERNAME);
   }
 
   private async setUserData(un: string) {
@@ -45,6 +42,9 @@ export default class Home extends Vue {
     console.log(result);
     this.resolvedUsername = result.username;
     this.resolvedDescription = result.description;
+  }
+  private async getUserData(){
+    console.log(usernameInput)
   }
 }
 </script>
