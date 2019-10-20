@@ -14,15 +14,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Provide, Prop } from "vue-property-decorator";
+import { Component, Vue, Provide, Prop } from 'vue-property-decorator';
 @Component
 export default class UserSearch extends Vue {
   @Provide()
-  public username = "";
+  public username = '';
   @Prop() private error!: object;
   @Prop() private showDismissibleAlert!: boolean;
   public search() {
-    this.$emit("search", this.username);
+    this.$emit('search', this.username);
   }
 }
 </script>
