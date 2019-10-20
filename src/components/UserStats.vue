@@ -1,7 +1,9 @@
 <template>
     <div id="UserStats">
-        <h1>{{ username }}</h1>
-        <h2>{{ userDescription }}</h2>
+      <template v-if="username">
+          <h1>{{ username }}</h1>
+          <h2>{{ userDescription }}</h2>
+      </template>
     </div>
 </template>
 

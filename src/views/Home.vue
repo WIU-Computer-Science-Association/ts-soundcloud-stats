@@ -1,50 +1,77 @@
 <template>
   <div class="home">
-    <!-- <img alt="Vue logo" src="../assets/logo.png" style="float:left; height:5em;"> -->
-    <UserStats :username="resolvedUsername" :userDescription="resolvedDescription"/>
+    <Navbar />
+    <template v-if="errorInitializingSoundCloud != {}">
+      <UserSearch
+        @search="onSearch"
+        :error="userSearchError"
+        :showDismissibleAlert="Object.entries(userSearchError).length !== 0 && userSearchError.constructor === Object"
+      />
+      <UserStats :username="resolvedUsername" :userDescription="resolvedDescription" />
+    </template>
+    <template v-if="errorInitializingSoundCloud == {}">
+      <p>There was an error initializing the SoundCloud authentication using the supplied Client ID</p>
+      <div>
+        <span>error:</span>
+        <span>{{errorInitializingSoundCloud}}</span>
+      </div>
+    </template>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, PropSync, Vue } from 'vue-property-decorator';
 import UserStats from '@/components/UserStats.vue';
+import UserSearch from '@/components/UserSearch.vue';
+import Navbar from '@/components/Navbar.vue';
 import SC from 'soundcloud';
 
 @Component({
   components: {
     UserStats,
+    UserSearch,
+    Navbar,
   },
 })
 export default class Home extends Vue {
-  private username: string = 'Look up a User!';
-  private description: string = 'Their information will show up here.';
-
-  get resolvedUsername() {
-    return this.username;
-  }
-  set resolvedUsername(value: string) {
-    this.username = value;
-  }
-
-  get resolvedDescription() {
-    return this.description;
-  }
-  set resolvedDescription(value: string) {
-    this.description = value;
-  }
+  public resolvedUsername: string = '';
+  public resolvedDescription: string = '';
+  public userSearchError: object = {};
+  public errorInitializingSoundCloud: object = {};
 
   constructor() {
     super();
-    SC.initialize({ client_id: process.env.VUE_APP_SC_CLIENT_ID});
-
-    this.setUserData(process.env.VUE_APP_SC_TEST_USERNAME);
+    this.initializeSoundCloud();
   }
 
-  private async setUserData(un: string) {
-    const result = await SC.resolve(`https://soundcloud.com/${un}`);
-    console.log(result);
-    this.resolvedUsername = result.username;
-    this.resolvedDescription = result.description;
+  public async onSearch(username: string): Promise<void> {
+    console.log(process.env.VUE_APP_SC_CLIENT_ID);
+    console.log(username);
+    try {
+      const result = await SC.resolve(`https://soundcloud.com/${username}`);
+      console.log(result);
+      this.resolvedDescription = result.description;
+      this.resolvedUsername = result.username;
+      this.userSearchError = {};
+    } catch (err) {
+      console.log('error with getting user');
+      console.log(err);
+      this.userSearchError = err;
+    }
+  }
+
+  public async initializeSoundCloud(): Promise<void> {
+    try {
+      SC.initialize({ client_id: process.env.VUE_APP_SC_CLIENT_ID });
+    } catch (err) {
+      console.log(
+        'An error occurred while trying to initialize the SoundCloud API.',
+      );
+      console.log('Please check that your soundcloud client ID is valid.');
+      console.log('error response:');
+      console.log(err);
+      this.errorInitializingSoundCloud = err;
+    }
   }
 }
 </script>
