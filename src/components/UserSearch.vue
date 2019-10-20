@@ -1,5 +1,5 @@
 <template>
-  <b-row class="justify-content-center mt-3">
+  <b-row class="col justify-content-center mt-3">
     <div class="col-md-8 col-11 justify-content-center">
       <b-alert v-model="showDismissibleAlert" variant="danger" dismissible>{{ error.message }}</b-alert>
       <b-form v-on:submit.prevent="search()" inline class="col justify-content-center mb-4">
