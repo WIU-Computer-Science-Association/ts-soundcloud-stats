@@ -2,12 +2,8 @@
   <div class="home">
     <Navbar />
     <template v-if="errorInitializingSoundCloud != {}">
-      <UserSearch
-        @search="onSearch"
-        :error="userSearchError"
-        :showDismissibleAlert="Object.entries(userSearchError).length !== 0 && userSearchError.constructor === Object"
-      />
-      <UserStats :username="resolvedUsername" :userDescription="resolvedDescription" />
+      <UserSearch/>
+      <UserStats/>
     </template>
     <template v-if="errorInitializingSoundCloud == {}">
       <p>There was an error initializing the SoundCloud authentication using the supplied Client ID</p>
@@ -34,30 +30,11 @@ import SC from 'soundcloud';
   },
 })
 export default class Home extends Vue {
-  public resolvedUsername: string = '';
-  public resolvedDescription: string = '';
-  public userSearchError: object = {};
   public errorInitializingSoundCloud: object = {};
 
   constructor() {
     super();
     this.initializeSoundCloud();
-  }
-
-  public async onSearch(username: string): Promise<void> {
-    console.log(process.env.VUE_APP_SC_CLIENT_ID);
-    console.log(username);
-    try {
-      const result = await SC.resolve(`https://soundcloud.com/${username}`);
-      console.log(result);
-      this.resolvedDescription = result.description;
-      this.resolvedUsername = result.username;
-      this.userSearchError = {};
-    } catch (err) {
-      console.log('error with getting user');
-      console.log(err);
-      this.userSearchError = err;
-    }
   }
 
   public async initializeSoundCloud(): Promise<void> {
