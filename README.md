@@ -3,6 +3,9 @@ This is an extremely basic project at this point in time.
 It queries SoundCloud for the sample **username** then **displays the username/description** on the web page.
 The goal of this project is to gather statistics about a user, such as total number of tracks, total length of time of all public tracks, etc.
 
+
+![Example Screenshot](./examples/example_search.png)
+
 ## Project setup
 ```
 npm install
